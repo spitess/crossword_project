@@ -1,30 +1,32 @@
 export function validateParams(puzzle, words) {
-    
-  if (!validePuzzle(puzzle) || !valideWords(words)) {
+  if (!validePuzzle(puzzle,words) || !valideWords(words)) {
     return false;
   } else {
     return true;
   }
 }
 
+export const validePuzzle = (puzzle, words) => {
+  let regx = /\d/g;
+  let arr = [];
+  let variable = puzzle.match(regx) || [];
+  arr.push(...variable);
+  let count = 0;
+  for (let l = 0; l < arr.length; l++) {
+    count += Number(arr[l]);
+  }
+  if (count != words.length) return false;
 
-export const validePuzzle = (puzzle) => {
-        console.log(12);
-
-  if (typeof puzzle !== "string") return false;
-  const isValid = /^[012.\n]*[012.]$/.test(puzzle);
+  const isValid = /^[012.\n]*[^\n]$/.test(puzzle);
   if (!isValid) return false;
-
   const rows = puzzle.split("\n");
   const width = rows[0].length;
   if (!rows.every((r) => r.length === width)) return false;
   if (puzzle == "") return false;
+  return true;
 };
 
-
 export const valideWords = (words) => {
-        console.log(12);
-
   if (!Array.isArray(words) || words.length < 1) {
     return false;
   }

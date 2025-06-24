@@ -5,19 +5,33 @@ import { solve } from "./helpers/Solver.js";
 function crosswordSolver(emptyPuzzle, words) {
   if (!validateParams(emptyPuzzle, words)) return console.log("Error");
 
-  const { grid, wordStarts, tag } = parseGrid(emptyPuzzle, words);
+  const grid = parseGrid(puzzle);
+  const solved = grid.map((row) => [...row]);
+  const revers = grid.map((row) => [...row]);
 
-  if (tag !== words.length) return console.log("Error");
+  const success = solve(grid, solved, words, 0);
+  solve(grid, revers, words.reverse(), 0);
 
-  words.sort((a, b) => b.length - a.length);
-
-  if (solve(grid, wordStarts, words, 0)) {
-    console.log(grid.map((row) => row.join("")).join("\n"));
-  } else {
+  if (solved.includes("0")) {
     console.log("Error");
+    return;
   }
+
+  if (!success) {
+    console.log("Error");
+    return;
+  }
+
+  const output = solved.map((row) => row.join("")).join("\n");
+  const reverse = revers.map((row) => row.join("")).join("\n");
+
+  if (output !== reverse) {
+    console.log("Error");
+    return;
+  }
+  console.log(output);
 }
 
-const puzzle = "2001\n0..0\n1000\n0..0";
+const puzzle = "1001\n0..0\n1001\n0..0";
 const words = ["casa", "alan", "ciao", "anta"];
 crosswordSolver(puzzle, words);
