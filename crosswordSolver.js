@@ -10,6 +10,7 @@ function crosswordSolver(emptyPuzzle, words) {
   const revers = grid.map((row) => [...row]);
 
   const success = solve(grid, solved, words, 0);
+
   solve(grid, revers, words.reverse(), 0);
 
   if (solved.includes("0")) {
@@ -29,9 +30,13 @@ function crosswordSolver(emptyPuzzle, words) {
     console.log("Error");
     return;
   }
-  console.log(output);
 }
 
-const puzzle = "1001\n0..0\n1001\n0..0";
+const puzzle = "2001\n0..0\n1000\n0..0";
 const words = ["casa", "alan", "ciao", "anta"];
+
+let NewPuzzle = puzzle.split("\n");
+export const first = puzzle.split("\n");
+export const CountPuzzle = NewPuzzle.map((row) => row.split("").map((_) => 0));
+
 crosswordSolver(puzzle, words);

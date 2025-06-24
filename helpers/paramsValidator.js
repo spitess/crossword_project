@@ -1,5 +1,5 @@
 export function validateParams(puzzle, words) {
-  if (!validePuzzle(puzzle,words) || !valideWords(words)) {
+  if (!validePuzzle(puzzle, words) || !valideWords(words)) {
     return false;
   } else {
     return true;
