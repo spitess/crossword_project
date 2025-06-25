@@ -1,5 +1,5 @@
 export function validateParams(puzzle, words) {
-  if (!validePuzzle(puzzle,words) || !valideWords(words)) {
+  if (!validePuzzle(puzzle, words) || !valideWords(words)) {
     return false;
   } else {
     return true;
@@ -7,6 +7,20 @@ export function validateParams(puzzle, words) {
 }
 
 export const validePuzzle = (puzzle, words) => {
+  // const puzzleWithoutNewlines = puzzle.replace(/\n/g, "");
+  const rows = puzzle.split("\n");
+  const width = rows[0].length;
+  const height = rows.length;
+  // for (let i = 0; i < puzzleWithoutNewlines.length; i++) {
+  //   const char = puzzleWithoutNewlines[i];
+  //   const left = i % width === 0 ? "." : puzzleWithoutNewlines[i - 1];
+  //   if (char === "2") {
+  //     if (left !== ".") return false;
+  //   } else if (char === "1") {
+  //     if (left !== ".") return false;
+  //   }
+  // }
+
   let regx = /\d/g;
   let arr = [];
   let variable = puzzle.match(regx) || [];
@@ -19,9 +33,16 @@ export const validePuzzle = (puzzle, words) => {
 
   const isValid = /^[012.\n]*[^\n]$/.test(puzzle);
   if (!isValid) return false;
-  const rows = puzzle.split("\n");
-  const width = rows[0].length;
+    let arrr = words.sort((a, b) => a.length - b.length);
+  if (
+    width != arrr[arrr.length - 1].length ||
+    height != arrr[arrr.length - 1].length
+  ) {
+    return false;
+  }
+
   if (!rows.every((r) => r.length === width)) return false;
+
   if (puzzle == "") return false;
   return true;
 };
