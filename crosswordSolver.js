@@ -2,18 +2,18 @@ import { validateParams } from "./helpers/paramsValidator.js";
 import { parseGrid } from "./helpers/Parser.js";
 import { solve } from "./helpers/Solver.js";
 
-function crosswordSolver(emptyPuzzle, words) {
-  if (!validateParams(emptyPuzzle, words)) return console.log("Error");
+function crosswordSolver(puzzleString, wordList) {
+  if (!validateParams(puzzleString, wordList)) return console.log("Error");
 
-  const grid = parseGrid(puzzle);
-  const solved = grid.map((row) => [...row]);
-  const revers = grid.map((row) => [...row]);
+  const parsedGrid = parseGrid(puzzleString);
+  const solutionGrid = parsedGrid.map((row) => [...row]);
+  const reversedGrid = parsedGrid.map((row) => [...row]);
 
-  const success = solve(grid, solved, words, 0);
+  const success = solve(parsedGrid, solutionGrid, wordList, 0);
 
-  solve(grid, revers, words.reverse(), 0);
+  solve(parsedGrid, reversedGrid, wordList.reverse(), 0);
 
-  if (solved.includes("0")) {
+  if (solutionGrid.includes("0")) {
     console.log("Error");
     return;
   }
@@ -23,20 +23,18 @@ function crosswordSolver(emptyPuzzle, words) {
     return;
   }
 
-  const output = solved.map((row) => row.join("")).join("\n");
-  const reverse = revers.map((row) => row.join("")).join("\n");
+  const output = solutionGrid.map((row) => row.join("")).join("\n");
+  const reversedOutput = reversedGrid.map((row) => row.join("")).join("\n");
 
-  if (output !== reverse) {
+  if (output !== reversedOutput) {
     console.log("Error");
     return;
   }
+
+  console.log(output);
 }
 
 const puzzle = "2001\n0..0\n1000\n0..0";
 const words = ["casa", "alan", "ciao", "anta"];
-
-let NewPuzzle = puzzle.split("\n");
-export const first = puzzle.split("\n");
-export const CountPuzzle = NewPuzzle.map((row) => row.split("").map((_) => 0));
 
 crosswordSolver(puzzle, words);
